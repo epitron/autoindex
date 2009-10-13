@@ -22,7 +22,8 @@
   }
 
   function in_excludes($s) {
-    $excludes = array("README.txt", "README.html", ".git", ".gitignore", ".svn");
+    //$excludes = array("README.txt", "README.html", ".git", ".gitignore", ".svn");
+    $excludes = array(".git", ".gitignore", ".svn");
     foreach ($excludes as $entry)
     {
       if($s == $entry) return true;
@@ -81,7 +82,7 @@
 
 
 
-<title>Directory listing of <? echo $location; ?></title>
+<title>Directory listing of <?= $location ?></title>
 <link href="/autoindex/default.css" rel="stylesheet" type="text/css">
 <body class="bodystyles">
 
@@ -96,14 +97,13 @@
 
 <?
 
-      
-  if (file_exists("README.html")) {
-    include("README.html");
+  if ( file_exists($readme = join_paths($path, "README.html")) ) {
+    include($readme);
     echo "<br><br>";
   }
-  if (file_exists("README.txt")) {
+  if ( file_exists($readme = join_paths($path, "README.txt")) ) {
     echo "<pre>";
-    include("README.txt");
+    include($readme);
     echo "</pre><br>";
   }
   
