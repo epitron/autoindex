@@ -3,7 +3,7 @@
 =========================
 
 Summary:
-  Pretty directory listings for your listingless directories!
+  Pretty directory lists for your listless directories!
 
 
 Installation:
