@@ -42,14 +42,11 @@
       if (in_excludes($entry)) continue;
       
       $full_path = join_paths($root, $entry); 
-      //echo "$full_path<br>";
       
       if (is_dir($full_path) && $full_path != $script_path) {
         $dirs[] = $entry;
       }
       if (is_file($full_path)) {
-        // if (strtolower(substr($entry, strlen($entry)-4, 4)) == ".mp3")
-        
         $files[] = array(
           "name"=>$entry, 
           "size"=>filesize($full_path), 
@@ -65,25 +62,30 @@
     reset($files);
     reset($dirs);
 
-    //print_r(array($files,$dirs));
     return array($files, $dirs);
   }
 
 
   $root            = $_SERVER["DOCUMENT_ROOT"]; 
-  $location        = $_SERVER["REQUEST_URI"]; 
+  $location        = urldecode($_SERVER["REQUEST_URI"]);
   $script_location = str_replace("index.php", "", $_SERVER["PHP_SELF"]); 
   $script_path     = join_paths($root, $script_location); 
   $path            = join_paths($root, $location);
-  //echo "path = $path<br>";
-  //echo "script_path = $script_path<br>";
+
+  $img_file = "/autoindex/file.gif";
+  $img_folder = "/autoindex/folder.gif";
+
+  $grey_toggle = true;
 
 ?>  
 
+<html>
 
+<head>
+  <title>Directory listing of <?= $location ?></title>
+  <link href="/autoindex/default.css" rel="stylesheet" type="text/css">
+</head>
 
-<title>Directory listing of <?= $location ?></title>
-<link href="/autoindex/default.css" rel="stylesheet" type="text/css">
 <body class="bodystyles">
 
 <?= "<h2 class=\"descfont\">Directory listing of: $location</h2>" ?>
@@ -97,25 +99,25 @@
 
 <?
 
+  // Show "README.html" if it exists
   if ( file_exists($readme = join_paths($path, "README.html")) ) {
     include($readme);
     echo "<br><br>";
   }
+
+  // Show "README.txt" if it exists
   if ( file_exists($readme = join_paths($path, "README.txt")) ) {
     echo "<pre>";
     include($readme);
     echo "</pre><br>";
   }
   
-  $img_file = "/autoindex/file.gif";
-  $img_folder = "/autoindex/folder.gif";
-  $grey_toggle = true;
-  
+
+  // Get list of files and directories
   list($files, $dirs) = list_dir($path);
-  
+ 
   
   // Display list of directories:
-
   if (!empty($dirs))
   {
     for ($i = 0; $i < sizeof($dirs); $i++) {
@@ -135,8 +137,8 @@
     }
   }
 	
-  // Display list of files:
-      
+
+  // Display list of files
   if (!empty($files))
   {
     foreach ($files as $file) {
@@ -148,4 +150,8 @@
       echo "<td align=\"right\" class=\"filefont\">" . number_format($file["size"]) . "&nbsp;</td>\n";
     }
   }
+
 ?>
+</body>
+
+</html>

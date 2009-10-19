@@ -10,11 +10,11 @@
 
 
 /* Directory Listing Header - "Filename", "Size" */
-.headerbg { background-color: #aaaaaa; }
+.headerbg { background-color: #777; }
 .headerfont {
 	font-family: Tahoma; 
 	font-size: 10pt; 
-	font-color: #000000 
+	color: #eee;
 	}
 
 
