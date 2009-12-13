@@ -32,6 +32,11 @@
     return false;
   }
 
+  // Size of > 2gb files
+  function big_filesize($filename) {
+    return trim( exec("stat -L -c%s ". escapeshellarg($filename)) ); 
+  }
+
   function list_dir($root) {
     global $script_path;
     
@@ -49,7 +54,7 @@
       if (is_file($full_path)) {
         $files[] = array(
           "name"=>$entry, 
-          "size"=>filesize($full_path), 
+          "size"=>big_filesize($full_path),
           "path"=>$full_path 
         );
       }
