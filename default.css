@@ -1,10 +1,13 @@
+body {
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+
 /* Page Background Color */
 .bodystyles { background-color: ffffff; }				
 
 
 /* Description of Directory Contents */
 .descfont { 
-	font-family: Tahoma; 
 	font-color: #000000 
 	}
 
@@ -12,7 +15,6 @@
 /* Directory Listing Header - "Filename", "Size" */
 .headerbg { background-color: #777; }
 .headerfont {
-	font-family: Tahoma; 
 	font-size: 10pt; 
 	color: #eee;
 	}
@@ -20,14 +22,12 @@
 
 /* Directory Entries Within Listing */
 .dirfont {
-	font-family: Tahoma;
 	font-size: 10pt;
 	}
 
 
 /* File Entries Within Listing */
 .filefont {
-	font-family: Tahoma;
 	font-size: 10pt;
 	}
 
