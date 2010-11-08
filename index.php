@@ -89,6 +89,8 @@
 <head>
   <title>Directory listing of <?= $location ?></title>
   <link href="/autoindex/default.css" rel="stylesheet" type="text/css">
+  <script src="/autoindex/js/jquery-1.4.2.js"></script>  
+  <script src="/autoindex/js/flowplayer-3.2.4.min.js"></script>  
 </head>
 
 <body class="bodystyles">
@@ -150,13 +152,69 @@
     //for ($i = 0; $i < sizeof($files); $i++) {
       echo_tr();
       
-      echo "<td><img src=\"$img_file\"></td>\n";
-      echo "<td class=\"filefont\"><a href=\"{$file["name"]}\">{$file["name"]}</a></td>\n";
-      echo "<td align=\"right\" class=\"filefont\">" . number_format($file["size"]) . "&nbsp;</td>\n";
+      $filename = $file["name"];
+      $ext = substr(strrchr($filename, '.'), 1);
+
+      $url = $filename;
+      $desc = $filename;
+      
+      switch ($ext) {
+        case "flv":
+        case "mp4":
+          $expando_id = "expando-".md5($url);
+          
+          echo "
+            <td>
+            <img
+              src='/autoindex/play.png' onclick=\"$('#$expando_id').slideToggle(); false;\"
+              style='cursor: pointer;'>
+            </td>
+            
+            <td class=\"filefont\"><a href=\"$url\">$desc</a></td>
+            ";
+          echo "<td align=\"right\" class=\"filefont\">" . number_format($file["size"]) . "&nbsp;</td>\n";
+          
+          echo "</tr>";
+          
+          echo "<tr><td colspan=3><div id='$expando_id' style='display:none;'>";
+          flowplayer($url);
+          echo "</div></td></tr>";
+          
+          break;
+          
+        default:
+          echo "<td><img src=\"$img_file\"></td>\n";
+          echo "<td class=\"filefont\"><a href=\"$url\">$desc</a></td>\n";
+          echo "<td align=\"right\" class=\"filefont\">" . number_format($file["size"]) . "&nbsp;</td>\n";
+          echo "</tr>";
+          
+          
+      }
     }
   }
 
 ?>
 </body>
 
+
+<?
+function flowplayer($url) {
+  $id = "flowplayer-".md5($url);
+  echo "
+    <!-- this A tag is where your Flowplayer will be placed. it can be anywhere -->
+    <a
+      href='$url'
+      style='display:block; width:720px; height:400px'                      
+      id='$id'>
+    </a>
+    
+    <!-- this will install flowplayer inside previous A- tag. -->
+    <script>
+      flowplayer('$id', '/autoindex/swf/flowplayer-3.2.5.swf');
+    </script>
+  ";
+  return $id;
+}
+
+?>
 </html>
