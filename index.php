@@ -168,17 +168,18 @@
             <img
               src='/autoindex/play.png' onclick=\"$('#$expando_id').slideToggle(); false;\"
               style='cursor: pointer;'>
-            </td>
+            </td>";
             
-            <td class=\"filefont\"><a href=\"$url\">$desc</a></td>
-            ";
+          echo "<td class=\"filefont\">";
+          echo "<a href=\"$url\">$desc</a>";
+          echo "<div id='$expando_id' style='display:none;'>";
+          flowplayer($url);
+          echo "</div>";
+          echo "</td>";
+          
           echo "<td align=\"right\" class=\"filefont\">" . number_format($file["size"]) . "&nbsp;</td>\n";
           
           echo "</tr>";
-          
-          echo "<tr><td colspan=3><div id='$expando_id' style='display:none;'>";
-          flowplayer($url);
-          echo "</div></td></tr>";
           
           break;
           
@@ -210,7 +211,7 @@ function flowplayer($url) {
     
     <!-- this will install flowplayer inside previous A- tag. -->
     <script>
-      flowplayer('$id', '/autoindex/swf/flowplayer-3.2.5.swf');
+    flowplayer('$id', '/autoindex/swf/flowplayer-3.2.5.swf', {clip: {scaling: 'orig'} });
     </script>
   ";
   return $id;

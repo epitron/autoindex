@@ -2,6 +2,10 @@ body {
   font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
+td {
+  vertical-align: top;
+}
+
 /* Page Background Color */
 .bodystyles { background-color: ffffff; }				
 
