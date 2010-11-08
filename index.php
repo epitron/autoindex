@@ -13,19 +13,23 @@
   $grey_toggle = true;
 
   
-  function flowplayer($url) {
+  function flowplayer($url, $ext) {
+    
+    if ($ext == "mp3") { $style = "width:720px; height:80px;"; }
+    else { $style = "width:720px; height:400px"; }
+      
     $id = "flowplayer-".md5($url);
     echo "
       <!-- this A tag is where your Flowplayer will be placed. it can be anywhere -->
       <a
         href='$url'
-        style='display:block; width:720px; height:400px'                      
+        style='display:block; $style'                      
         id='$id'>
       </a>
       
       <!-- this will install flowplayer inside previous A- tag. -->
       <script>
-      flowplayer('$id', '/autoindex/swf/flowplayer-3.2.5.swf', {clip: {scaling: 'fit'} });
+      flowplayer('$id', '/autoindex/swf/flowplayer-3.2.5.swf', { clip:{scaling:'fit'}/*, plugins:{audio:{url:'flowplayer.audio-3.2.1.swf'}}}*/ });
       </script>
     ";
     return $id;
@@ -180,6 +184,7 @@
       switch ($ext) {
         case "flv":
         case "mp4":
+        case "mp3":
           $expando_id = "expando-".md5($url);
           
           echo "
@@ -192,7 +197,7 @@
           echo "<td class=\"filefont\">";
           echo "<a href=\"$url\">$desc</a>";
           echo "<div id='$expando_id' style='display:none;'>";
-          flowplayer($url);
+          flowplayer($url, $ext);
           echo "</div>";
           echo "</td>";
           
