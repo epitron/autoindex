@@ -1,5 +1,36 @@
 <? 
 
+  $root            = $_SERVER["DOCUMENT_ROOT"]; 
+  $location        = urldecode($_SERVER["REQUEST_URI"]);
+  $script_location = str_replace("index.php", "", $_SERVER["PHP_SELF"]); 
+  $script_path     = join_paths($root, $script_location); 
+  $path            = join_paths($root, $location);
+
+  $file_image = "/autoindex/file.gif";
+  $folder_image = "/autoindex/folder.gif";
+  $play_image = "/autoindex/play.png";
+
+  $grey_toggle = true;
+
+  
+  function flowplayer($url) {
+    $id = "flowplayer-".md5($url);
+    echo "
+      <!-- this A tag is where your Flowplayer will be placed. it can be anywhere -->
+      <a
+        href='$url'
+        style='display:block; width:720px; height:400px'                      
+        id='$id'>
+      </a>
+      
+      <!-- this will install flowplayer inside previous A- tag. -->
+      <script>
+      flowplayer('$id', '/autoindex/swf/flowplayer-3.2.5.swf', {clip: {scaling: 'fit'} });
+      </script>
+    ";
+    return $id;
+  }
+
   function echo_tr() {
     global $grey_toggle;
     
@@ -70,24 +101,12 @@
     return array($files, $dirs);
   }
 
-
-  $root            = $_SERVER["DOCUMENT_ROOT"]; 
-  $location        = urldecode($_SERVER["REQUEST_URI"]);
-  $script_location = str_replace("index.php", "", $_SERVER["PHP_SELF"]); 
-  $script_path     = join_paths($root, $script_location); 
-  $path            = join_paths($root, $location);
-
-  $img_file = "/autoindex/file.gif";
-  $img_folder = "/autoindex/folder.gif";
-
-  $grey_toggle = true;
-
 ?>  
 
 <html>
 
 <head>
-  <title>Directory listing of <?= $location ?></title>
+  <title>[dir] <?= $location ?></title>
   <link href="/autoindex/default.css" rel="stylesheet" type="text/css">
   <script src="/autoindex/js/jquery-1.4.2.js"></script>  
   <script src="/autoindex/js/flowplayer-3.2.4.min.js"></script>  
@@ -137,7 +156,7 @@
         if ($dirdesc == "..")
           $dirdesc = "[ Previous Directory ]";
         
-        echo "<td><img src=\"$img_folder\"></td>\n";
+        echo "<td><img src=\"$folder_image\"></td>\n";
         echo "<td class=\"dirfont\"><a href=\"{$dirs[$i]}\">$dirdesc</a></td>\n";
         echo "<td class=\"dirfont\" align=\"right\">&lt;DIR&gt;</td>\n";
       }
@@ -166,7 +185,7 @@
           echo "
             <td>
             <img
-              src='/autoindex/play.png' onclick=\"$('#$expando_id').slideToggle(); false;\"
+              src='$play_image' onclick=\"$('#$expando_id').slideToggle(); false;\"
               style='cursor: pointer;'>
             </td>";
             
@@ -184,7 +203,7 @@
           break;
           
         default:
-          echo "<td><img src=\"$img_file\"></td>\n";
+          echo "<td><img src=\"$file_image\"></td>\n";
           echo "<td class=\"filefont\"><a href=\"$url\">$desc</a></td>\n";
           echo "<td align=\"right\" class=\"filefont\">" . number_format($file["size"]) . "&nbsp;</td>\n";
           echo "</tr>";
@@ -196,26 +215,4 @@
 
 ?>
 </body>
-
-
-<?
-function flowplayer($url) {
-  $id = "flowplayer-".md5($url);
-  echo "
-    <!-- this A tag is where your Flowplayer will be placed. it can be anywhere -->
-    <a
-      href='$url'
-      style='display:block; width:720px; height:400px'                      
-      id='$id'>
-    </a>
-    
-    <!-- this will install flowplayer inside previous A- tag. -->
-    <script>
-    flowplayer('$id', '/autoindex/swf/flowplayer-3.2.5.swf', {clip: {scaling: 'orig'} });
-    </script>
-  ";
-  return $id;
-}
-
-?>
 </html>
