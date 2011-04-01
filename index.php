@@ -161,7 +161,7 @@
           $dirdesc = "[ Previous Directory ]";
         
         echo "<td><img src=\"$folder_image\"></td>\n";
-        echo "<td class=\"dirfont\"><a href=\"{$dirs[$i]}\">$dirdesc</a></td>\n";
+        echo "<td class=\"dirfont\"><a href=\"{$dirs[$i]}/\">$dirdesc</a></td>\n";
         echo "<td class=\"dirfont\" align=\"right\">&lt;DIR&gt;</td>\n";
       }
     }
