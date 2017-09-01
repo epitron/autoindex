@@ -1,4 +1,4 @@
-<? 
+<?php
 
   $root            = $_SERVER["DOCUMENT_ROOT"]; 
   $location        = urldecode($_SERVER["REQUEST_URI"]);
@@ -127,7 +127,7 @@
 <td align="right" class="headerfont"><b>Size</b></td>
 </tr>
 
-<?
+<?php
 
   // Show "README.html" if it exists
   if ( file_exists($readme = join_paths($path, "README.html")) ) {
